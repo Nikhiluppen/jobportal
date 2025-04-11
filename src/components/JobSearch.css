@@ -1,0 +1,78 @@
+/* JobSearch.css */
+
+.job-search-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .job-search-container input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .job-search-container input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+  }
+  
+  .job-search-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .job-search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .job-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s;
+  }
+  
+  .job-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  .job-card h3 {
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .job-card p {
+    margin-bottom: 6px;
+    color: #555;
+  }
+  
+  .job-card a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .job-card a:hover {
+    text-decoration: underline;
+  }
+  
+  .message-no-jobs {
+    color: #dc3545;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px 0;
+  }
+  

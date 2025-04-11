@@ -33,7 +33,7 @@ const HomePage = () => {
       title: "AI/ML Engineer",
       skills: ["Python", "PyTorch", "Deep Learning"],
       location: "Seattle, WA",
-      description: "Design and train AI models for automation.",
+      description: "Design and train AI models faadsdsor automation.",
     }
   ];
 
@@ -55,7 +55,7 @@ const HomePage = () => {
       </nav>
 
       {/* Hero Section */}
-      <header>
+      {/* <header>
         <div className="container">
           <h1>Find Your Software Job</h1>
           <div className="search-bar">
@@ -64,7 +64,7 @@ const HomePage = () => {
             <button>Search</button>
           </div>
         </div>
-      </header>
+      </header> */}
 
       {/* Categories Section */}
       <section className="categories">
