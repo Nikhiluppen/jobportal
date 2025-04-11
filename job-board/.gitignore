@@ -24,4 +24,6 @@ dist-ssr
 *.sw?
 .env
 src/data/jobs_data.json
+!src/data/jobs_data.json
+
 

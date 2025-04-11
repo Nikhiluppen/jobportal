@@ -8,13 +8,14 @@ import SignUp from "./pages/SignUp";
 import CategoryPage from "./pages/CategoryPage";
 import JobUpload from "./components/JobUpload";
 import JobSearch from "./components/JobSearch";
+import SavedJobs from "./pages/SavedJobs";
 
 const App = () => {
   return (
     <Router>
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">
-          Skill  & Location-Based Job Dashboard
+          Skill based & Location-Based Job Dashboard
         </h1>
 
         {/* <JobUpload /> */}
