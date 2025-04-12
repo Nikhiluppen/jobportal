@@ -1,40 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 
 const SavedJobs = () => {
   const [savedJobs, setSavedJobs] = useState([]);
 
   useEffect(() => {
-    const jobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
-    setSavedJobs(jobs);
+    const saved = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+    setSavedJobs(saved);
   }, []);
 
-  const handleRemove = (job_link) => {
-    const updated = savedJobs.filter((j) => j.job_link !== job_link);
-    localStorage.setItem("savedJobs", JSON.stringify(updated));
-    setSavedJobs(updated);
-  };
-
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Saved Jobs</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Saved Jobs</h2>
       {savedJobs.length > 0 ? (
         savedJobs.map((job, index) => (
-          <div key={index} className="border rounded p-4 mb-4">
-            <h3>{job.job_title || job.Title}</h3>
-            <p><strong>Company:</strong> {job.company || job["Company Name"]}</p>
-            <p><strong>Location:</strong> {job.job_location || job.Location}</p>
-            <Link to={`/job/${encodeURIComponent(job.job_link || job["Detail URL"])}`} className="text-blue-500 underline">View & Apply</Link>
-            <button
-              onClick={() => handleRemove(job.job_link || job["Detail URL"])}
-              className="ml-4 text-red-600"
+          <div key={index} className="border p-4 rounded mb-4">
+            <h3 className="font-semibold">{job.job_title}</h3>
+            <p><strong>Company:</strong> {job.company}</p>
+            <p><strong>Location:</strong> {job.job_location}</p>
+            <p><strong>Skills:</strong> {job.job_skills}</p>
+            <a
+              href={job.job_link || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
             >
-              Remove
-            </button>
+              View & Apply
+            </a>
           </div>
         ))
       ) : (
-        <p>No saved jobs.</p>
+        <p>No saved jobs found.</p>
       )}
     </div>
   );

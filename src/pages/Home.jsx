@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./home.css";  // Ensure correct path
+import "./home.css";  // Ensure you style it as described below
 
 const HomePage = () => {
   // Job Listings Data
@@ -33,20 +33,20 @@ const HomePage = () => {
       title: "AI/ML Engineer",
       skills: ["Python", "PyTorch", "Deep Learning"],
       location: "Seattle, WA",
-      description: "Design and train AI models faadsdsor automation.",
+      description: "Design and train AI models for automation.",
     }
   ];
 
   return (
     <div className="home-container">
-      {/* Navbar */}
+      {/* ✅ Fixed Navbar */}
       <nav className="navbar">
         <div className="logo">JobBoard</div>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/pages">Pages</Link></li>
           <li><Link to="/candidates">Candidates</Link></li>
-          <li><Link to="/employers">Employers</Link></li>
+          <li><Link to="/savedjobs">SavedJobs</Link></li>
           <li><Link to="/skills">Skills</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/jobboard">JobBoard</Link></li>
@@ -54,9 +54,9 @@ const HomePage = () => {
         </ul>
       </nav>
 
-      {/* Hero Section */}
-      {/* <header>
-        <div className="container">
+      {/* ✅ Search bar directly after navbar */}
+      {/* <header className="search-header">
+        <div className="search-container">
           <h1>Find Your Software Job</h1>
           <div className="search-bar">
             <input type="text" placeholder="Skill (e.g., Python, React, AWS)" />
@@ -78,7 +78,7 @@ const HomePage = () => {
           <Link to="/skills/ai-machine-learning" className="category">AI & Machine Learning</Link>
         </div>
 
-        {/* Job Listings Section inside Categories */}
+        {/* Job Listings Section */}
         <h2>Available Jobs</h2>
         <div className="job-list">
           {jobs.map((job, index) => (
