@@ -75,4 +75,16 @@
     text-align: center;
     padding: 20px 0;
   }
+  .job-search-container {
+    margin-top: 20px;
+  }
+  
+  .job-card {
+    background-color: #f9fafb;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .job-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
   
