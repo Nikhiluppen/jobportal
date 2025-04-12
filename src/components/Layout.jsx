@@ -1,7 +1,7 @@
 // Layout.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Layout.css';
+// import './Layout.css';
 
 const Layout = ({ children }) => {
   return (

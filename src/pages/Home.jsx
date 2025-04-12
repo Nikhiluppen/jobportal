@@ -95,10 +95,11 @@ const HomePage = () => {
 
       {/* Footer */}
       <footer>
-        <p>&copy; 2025 Job Board. All rights reserved.</p>
+        <p>&copy; 2025 Job Board. All rights reserved</p>
       </footer>
     </div>
   );
 };
+
 
 export default HomePage;

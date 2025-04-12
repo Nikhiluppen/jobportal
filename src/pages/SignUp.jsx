@@ -1,62 +1,100 @@
 import React, { useState } from 'react';
 
-const SignUp = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('User signed up:', formData);
+    alert('Logged in successfully!');
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
-        
-        <label className="block mb-2">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-2 border rounded mb-4"
-          required
-        />
-
-        <label className="block mb-2">Email</label>
+    <div className="login-container">
+      <h1 className="login-title">Login</h1>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label>Email</label>
         <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 border rounded mb-4"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        <label className="block mb-2">Password</label>
+        <label>Password</label>
         <input
           type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full p-2 border rounded mb-4"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
-          Sign Up
-        </button>
+        <button type="submit">Login</button>
       </form>
+
+      {/* Embedded CSS */}
+      <style>{`
+        .login-container {
+          max-width: 400px;
+          margin: 80px auto;
+          padding: 40px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          background-color: #fff;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-title {
+          text-align: center;
+          margin-bottom: 24px;
+          font-size: 28px;
+          color: #333;
+        }
+
+        .login-form {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .login-form label {
+          margin-bottom: 6px;
+          font-weight: 600;
+          color: #444;
+        }
+
+        .login-form input {
+          padding: 10px 12px;
+          margin-bottom: 18px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-size: 16px;
+          transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+          border-color: #007BFF;
+          outline: none;
+        }
+
+        .login-form button {
+          padding: 10px;
+          background-color: #007BFF;
+          color: white;
+          font-size: 16px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        .login-form button:hover {
+          background-color: #0056b3;
+        }
+      `}</style>
     </div>
   );
 };
 
-export default SignUp;
+export default Login;

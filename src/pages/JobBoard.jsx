@@ -25,5 +25,5 @@ const JobBoard = ({ jobs }) => {
     </div>
   );
 };
-
+// wdqwqwdqddqDEF
 export default JobBoard;
