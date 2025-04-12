@@ -8,7 +8,7 @@ const CategoryPage = () => {
   // Normalize the category from the URL to match job data format (replace "-" with spaces)
   const normalizedCategory = category.replace(/-/g, " "); // replace all dashes with spaces
 
-  // Filter jobs based on category
+  // dwqqdw
   const filteredJobs = jobs.filter(job => job.category.toLowerCase() === normalizedCategory.toLowerCase());
 
   return (
