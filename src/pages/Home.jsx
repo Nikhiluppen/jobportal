@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./home.css";  // Ensure you style it as described below
+import "./home.css";  // Optional: for styling
 
 const HomePage = () => {
-  // Job Listings Data
   const jobs = [
     {
       title: "Software Engineer",
@@ -39,7 +38,7 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      {/* ✅ Fixed Navbar */}
+      {/* ✅ Navbar */}
       <nav className="navbar">
         <div className="logo">JobBoard</div>
         <ul className="nav-links">
@@ -54,31 +53,21 @@ const HomePage = () => {
         </ul>
       </nav>
 
-      {/* ✅ Search bar directly after navbar */}
-      {/* <header className="search-header">
-        <div className="search-container">
-          <h1>Find Your Software Job</h1>
-          <div className="search-bar">
-            <input type="text" placeholder="Skill (e.g., Python, React, AWS)" />
-            <input type="text" placeholder="Location (City, Remote, etc.)" />
-            <button>Search</button>
-          </div>
-        </div>
-      </header> */}
-
-      {/* Categories Section */}
+      {/* ✅ Categories */}
       <section className="categories">
         <h2>Popular Categories</h2>
         <div className="category-list">
-          <Link to="/skills/full-stack-development" className="category">Full-Stack dDevelopment</Link>
-          <Link to="/skills/frontend-development" className="category">Frontend Development</Link>
-          <Link to="/skills/backend-development" className="category">Backend Development</Link>
-          <Link to="/skills/cloud-security" className="category">Cloud Security</Link>
-          <Link to="/skills/data-science" className="category">Data Science</Link>
-          <Link to="/skills/ai-machine-learning" className="category">AI & Machine Learning</Link>
+          <Link to="/category/full-stack-development" className="category">Full-Stack Development</Link>
+          <Link to="/category/frontend-development" className="category">Frontend Development</Link>
+          <Link to="/category/backend-development" className="category">Backend Development</Link>
+          <Link to="/category/cloud-security" className="category">Cloud Security</Link>
+          <Link to="/category/data-science" className="category">Data Science</Link>
+          <Link to="/category/ai-machine-learning" className="category">AI & Machine Learning</Link>
         </div>
+      </section>
 
-        {/* Job Listings Section */}
+      {/* ✅ Job Listings */}
+      <section className="job-listings">
         <h2>Available Jobs</h2>
         <div className="job-list">
           {jobs.map((job, index) => (
@@ -93,13 +82,12 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ✅ Footer */}
       <footer>
         <p>&copy; 2025 Job Board. All rights reserved</p>
       </footer>
     </div>
   );
 };
-
 
 export default HomePage;

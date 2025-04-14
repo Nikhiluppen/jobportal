@@ -1,11 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import jobs from '../data/jobs_data.json'; // Your actual JSON file
+import jobs from '../data/jobs_data.json'; // Ensure this file exists and uses "Category", "job_title", etc.
 
 const CategoryPage = () => {
   const { category } = useParams();
+
+  // Convert "cloud-security" → "Cloud Security"
   const normalizedCategory = category.replace(/-/g, ' ').toLowerCase();
 
+  // Filter jobs where the category matches
   const filteredJobs = jobs.filter(
     (job) => job.Category?.toLowerCase() === normalizedCategory
   );
@@ -37,10 +40,13 @@ const CategoryPage = () => {
         )}
       </div>
 
+      {/* Embedded CSS Styling */}
       <style>{`
         .category-container {
           padding: 2rem;
           font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          min-height: 100vh;
         }
 
         .category-title {
@@ -48,30 +54,42 @@ const CategoryPage = () => {
           font-weight: bold;
           margin-bottom: 1.5rem;
           text-transform: capitalize;
+          color: #333;
         }
 
         .job-list {
           display: grid;
-          gap: 1.5rem;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
         }
 
         .job-card {
-          padding: 1rem;
           border: 1px solid #ddd;
+          padding: 1rem;
           border-radius: 10px;
           background-color: #fff;
-          box-shadow: 0 0 8px rgba(0,0,0,0.05);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-card h3 {
+          margin-bottom: 0.5rem;
+          color: #222;
+        }
+
+        .job-card p {
+          margin: 0.3rem 0;
+          color: #444;
         }
 
         .apply-btn {
-          margin-top: 0.5rem;
           display: inline-block;
-          background-color: #2563eb;
-          color: #fff;
+          margin-top: 1rem;
           padding: 0.5rem 1rem;
-          border-radius: 6px;
+          background-color: #2563eb;
+          color: white;
           text-decoration: none;
+          border-radius: 6px;
+          transition: background-color 0.2s ease;
         }
 
         .apply-btn:hover {
