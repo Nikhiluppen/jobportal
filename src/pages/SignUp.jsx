@@ -11,7 +11,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h1 className="login-title">Login</h1>
+      <h1 className="login-title">Signup </h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <label>Email</label>
         <input
@@ -31,7 +31,7 @@ const Login = () => {
           required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">Signup</button>
       </form>
 
       {/* Embedded CSS */}

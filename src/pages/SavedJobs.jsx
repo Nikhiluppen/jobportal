@@ -31,6 +31,7 @@ const SavedJobs = () => {
       ) : (
         <p>No saved jobs found.</p>
       )}
+      
     </div>
   );
 };

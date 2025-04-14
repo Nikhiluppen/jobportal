@@ -80,13 +80,13 @@ const Login = () => {
 
         .login-form button {
           padding: 10px;
-          background-color: #007BFF;
+          background-color:rgb(127, 178, 232);
           color: white;
           font-size: 16px;
           border: none;
           border-radius: 6px;
           cursor: pointer;
-          transition: background-color 0.3s;
+          transition: background-color 0.4s;
         }
 
         .login-form button:hover {
