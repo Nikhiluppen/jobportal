@@ -6,7 +6,7 @@ const HomePage = () => {
   // Job Listings Data
   const jobs = [
     {
-      title: "Software Engineer",
+      title: "Software EDSADSAngineer",
       skills: ["Java", "Spring Boot", "SQL"],
       location: "New York, NY",
       description: "Develop scalable web applications and APIs.",
@@ -16,6 +16,7 @@ const HomePage = () => {
       skills: ["AWS", "Zero Trust", "Cybersecurity"],
       location: "Remote",
       description: "Implement security measures for cloud infrastructure.",
+      awdAQD
     },
     {
       title: "Data Scientist",
