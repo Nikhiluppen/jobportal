@@ -44,4 +44,5 @@ const JobDetail = () => {
   );
 };
 // EDWDQDQD
+
 export default JobDetail;

@@ -70,7 +70,7 @@ const HomePage = () => {
       <section className="categories">
         <h2>Popular Categories</h2>
         <div className="category-list">
-          <Link to="/skills/full-stack-development" className="category">Full-Stack Development</Link>
+          <Link to="/skills/full-stack-development" className="category">Full-Stack dDevelopment</Link>
           <Link to="/skills/frontend-development" className="category">Frontend Development</Link>
           <Link to="/skills/backend-development" className="category">Backend Development</Link>
           <Link to="/skills/cloud-security" className="category">Cloud Security</Link>

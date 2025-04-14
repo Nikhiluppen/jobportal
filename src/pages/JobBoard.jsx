@@ -20,6 +20,7 @@ const JobBoard = ({ jobs }) => {
               <a href={`/apply/${index}`} className="text-blue-500">Apply</a>
             </li>
           ))}
+          
         </ul>
       )}
     </div>

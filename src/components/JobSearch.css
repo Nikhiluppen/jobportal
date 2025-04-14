@@ -1,90 +1,120 @@
-/* JobSearch.css */
+/* Container spacing */
+.p-4 {
+  padding: 1rem;
+}
 
-.job-search-container {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f9fafb;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+/* Title styling */
+.text-2xl {
+  font-size: 1.5rem;
+}
+.font-bold {
+  font-weight: bold;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+/* Flex styling for inputs and buttons */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.md\\:flex-row {
+  flex-direction: row;
+}
+.gap-4 {
+  gap: 1rem;
+}
+
+/* Input styling */
+input[type="text"] {
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Buttons */
+button,
+a {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Search button */
+.bg-blue-600 {
+  background-color: #2563eb;
+  color: white;
+  display: block;
+}
+.bg-blue-600:hover {
+  background-color: #1e40af;
+}
+
+/* Apply button */
+.bg-green-600 {
+  background-color: #16a34a;
+}
+.bg-green-600:hover {
+  background-color: #15803d;
+}
+
+/* Save button */
+.bg-yellow-500 {
+  background-color: #facc15;
+}
+.bg-yellow-500:hover {
+  background-color: #eab308;
+}
+.text-black {
+  color: #000;
+}
+
+/* Job card */
+.border {
+  border: 1px solid #ddd;
+}
+.rounded {
+  border-radius: 0.75rem;
+}
+.shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.p-4 {
+  padding: 1rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+/* Typography */
+.font-semibold {
+  font-weight: 600;
+}
+.text-gray-600 {
+  color: #4b5563;
+}
+
+/* Utility spacing */
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .md\:flex-row {
+    flex-direction: row;
   }
-  
-  .job-search-container input {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-  }
-  
-  .job-search-container input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0,123,255,0.5);
-  }
-  
-  .job-search-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .job-search-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .job-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s;
-  }
-  
-  .job-card:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  }
-  
-  .job-card h3 {
-    color: #333;
-    margin-bottom: 8px;
-  }
-  
-  .job-card p {
-    margin-bottom: 6px;
-    color: #555;
-  }
-  
-  .job-card a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .job-card a:hover {
-    text-decoration: underline;
-  }
-  
-  .message-no-jobs {
-    color: #dc3545;
-    font-size: 16px;
-    text-align: center;
-    padding: 20px 0;
-  }
-  .job-search-container {
-    margin-top: 20px;
-  }
-  
-  .job-card {
-    background-color: #f9fafb;
-    transition: box-shadow 0.2s ease;
-  }
-  
-  .job-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
+}
