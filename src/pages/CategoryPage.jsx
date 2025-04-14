@@ -46,7 +46,7 @@ const CategoryPage = () => {
         .category-title {
           font-size: 2rem;
           font-weight: bold;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.5rem;ss
           text-transform: capitalize;
         }
 
