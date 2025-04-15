@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./home.css";  // Optional: for styling
+import './home.css';
 
 const HomePage = () => {
   const jobs = [
@@ -38,8 +38,8 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      {/* ✅ Navbar */}
-      <nav className="navbar">
+      {/* Navbar */}
+      {/* <nav className="navbar">
         <div className="logo">JobBoard</div>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
@@ -51,13 +51,13 @@ const HomePage = () => {
           <li><Link to="/jobboard">JobBoard</Link></li>
           <li><Link to="/signup" className="signup-btn">Sign Up</Link></li>
         </ul>
-      </nav>
+      </nav> */}
 
-      {/* ✅ Categories */}
+      {/* Popular Categories */}
       <section className="categories">
         <h2>Popular Categories</h2>
         <div className="category-list">
-          <Link to="/category/full-stack-development" className="category">Full-Stack Development</Link>
+          <Link to="/category/full-stack-development" className="category">Full-Stacksdcsc Development</Link>
           <Link to="/category/frontend-development" className="category">Frontend Development</Link>
           <Link to="/category/backend-development" className="category">Backend Development</Link>
           <Link to="/category/cloud-security" className="category">Cloud Security</Link>
@@ -66,7 +66,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ✅ Job Listings */}
+      {/* Available Jobs */}
       <section className="job-listings">
         <h2>Available Jobs</h2>
         <div className="job-list">
@@ -82,10 +82,106 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ✅ Footer */}
+      {/* Footer */}
       <footer>
         <p>&copy; 2025 Job Board. All rights reserved</p>
       </footer>
+
+      {/* Embedded CSS Styling */}
+      <style>{`
+        .home-container {
+          font-family: Arial, sans-serif;
+          padding: 20px;
+          background-color: #f9f9f9;
+        }
+        // .navbar {
+          
+        //   display: flex;
+        //   justify-content: space-between;
+        //   align-items: center;
+        //   background-color: #333;
+        //   padding: 10px 20px;
+        // }
+        // .navbar .logo {
+        //   color: #fff;
+        //   font-size: 1.5rem;
+        //   font-weight: bold;
+        // }
+        .nav-links {
+          list-style: none;
+          display: flex;
+          margin: 0;
+          padding: 0;
+        }
+        .nav-links li {
+          margin: 0 10px;
+        }
+        .nav-links a {
+          color: #fff;
+          text-decoration: none;
+        }
+        .signup-btn {
+          background-color: #007bff;
+          padding: 5px 10px;
+          border-radius: 5px;
+          color: #fff;
+        }
+        // .categories {
+        //   margin: 20px 0;
+        //   padding: 20px;
+        //   background-color: #fff;
+        //   border-radius: 5px;
+        //   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        // }
+        // .category-list {
+        //   display: flex;
+        //   flex-wrap: wrap;
+        //   gap: 10px;
+        //   margin-top: 10px;
+        // }
+        // .category {
+        //   background-color: #eee;
+        //   padding: 8px 12px;
+        //   border-radius: 5px;
+        //   text-decoration: none;
+        //   color: #333;
+        // }
+        .job-listings {
+          margin: 20px 0;
+        }
+        .job-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+        }
+        .job-card {
+          background-color: #fff;
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .apply-btn {
+          display: inline-block;
+          margin-top: 10px;
+          padding: 8px 16px;
+          background-color: #28a745;
+          color: #fff;
+          text-decoration: none;
+          border-radius: 5px;
+          transition: background-color 0.3s;
+        }
+        .apply-btn:hover {
+          background-color: #218838;
+        }
+        footer {
+          text-align: center;
+          padding: 20px;
+          background-color: #333;
+          color: #fff;
+          margin-top: 40px;
+        }
+      `}</style>
     </div>
   );
 };

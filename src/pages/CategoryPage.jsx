@@ -1,21 +1,43 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import jobs from '../data/jobs_data.json'; // Ensure this file exists and uses "Category", "job_title", etc.
+import jobsData from '../data/jobs_data.json'; // Ensure your JSON uses keys like "Category", "job_title", etc.
 
 const CategoryPage = () => {
+  // Retrieve the "category" parameter from the URL
   const { category } = useParams();
 
-  // Convert "cloud-security" → "Cloud Security"
-  const normalizedCategory = category.replace(/-/g, ' ').toLowerCase();
+  // Normalize the URL parameter: convert hyphens to spaces, trim, and convert to lowercase.
+  // For example, "frontend-development" becomes "frontend development".
+  const normalizedCategory = category.replace(/-/g, ' ').trim().toLowerCase();
 
-  // Filter jobs where the category matches
-  const filteredJobs = jobs.filter(
-    (job) => job.Category?.toLowerCase() === normalizedCategory
+  // If the category is "frontend development", display the specific welcome message.
+  if (normalizedCategory === 'frontend development') {
+    return (
+      <div className="category-container">
+        <h1>Hi Nikhil, welcome to frontend learned developer</h1>
+        {/* Embedded CSS Styling */}
+        <style>{`
+          .category-container {
+            padding: 2rem;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // For other categories, filter jobs to show only those that have a matching "Category"
+  const filteredJobs = jobsData.filter(
+    (job) =>
+      job.Category &&
+      job.Category.trim().toLowerCase() === normalizedCategory
   );
 
   return (
     <div className="category-container">
-      <h1 className="category-title">{normalizedCategory}</h1>
+      <h1 className="category-title">Jobs for: {normalizedCategory}</h1>
       <div className="job-list">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job, index) => (
@@ -44,56 +66,40 @@ const CategoryPage = () => {
       <style>{`
         .category-container {
           padding: 2rem;
-          font-family: Arial, sans-serif;
           background-color: #f9f9f9;
           min-height: 100vh;
+          font-family: Arial, sans-serif;
         }
-
         .category-title {
           font-size: 2rem;
-          font-weight: bold;
           margin-bottom: 1.5rem;
           text-transform: capitalize;
           color: #333;
         }
-
         .job-list {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 1.5rem;
+          gap: 20px;
         }
-
         .job-card {
-          border: 1px solid #ddd;
-          padding: 1rem;
-          border-radius: 10px;
           background-color: #fff;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-
-        .job-card h3 {
-          margin-bottom: 0.5rem;
-          color: #222;
-        }
-
-        .job-card p {
-          margin: 0.3rem 0;
-          color: #444;
-        }
-
         .apply-btn {
           display: inline-block;
-          margin-top: 1rem;
-          padding: 0.5rem 1rem;
-          background-color: #2563eb;
-          color: white;
+          margin-top: 10px;
+          padding: 8px 16px;
+          background-color: #28a745;
+          color: #fff;
           text-decoration: none;
-          border-radius: 6px;
-          transition: background-color 0.2s ease;
+          border-radius: 5px;
+          transition: background-color 0.3s;
         }
-
         .apply-btn:hover {
-          background-color: #1e40af;
+          background-color: #218838;
         }
       `}</style>
     </div>
