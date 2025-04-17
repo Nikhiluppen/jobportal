@@ -1,100 +1,104 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignUp = () => {
+  const [form, setForm] = useState({ name: '', email: '', headline: '' });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = e => {
+    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    alert('Logged in successfully!');
+    navigate('/home', { state: form });
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">Signup </h1>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+    <div className="signup-container">
+      <div className="signup-card">
+        <h2>Create Your Profile</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Your Name</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="e.g. Jane Doe"
+            required
+          />
 
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="you@example.com"
+            required
+          />
 
-        <button type="submit">Signup</button>
-      </form>
+          <label>Headline</label>
+          <input
+            name="headline"
+            value={form.headline}
+            onChange={handleChange}
+            placeholder="e.g. Frontend Developer"
+            required
+          />
 
-      {/* Embedded CSS */}
+          <button type="submit">Continue</button>
+        </form>
+      </div>
+
       <style>{`
-        .login-container {
-          max-width: 400px;
-          margin: 80px auto;
-          padding: 40px;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-          border-radius: 12px;
-          background-color: #fff;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .login-title {
-          text-align: center;
-          margin-bottom: 24px;
-          font-size: 28px;
-          color: #333;
-        }
-
-        .login-form {
+        .signup-container {
           display: flex;
-          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: #f3f2ef;
         }
-
-        .login-form label {
-          margin-bottom: 6px;
-          font-weight: 600;
-          color: #444;
+        .signup-card {
+          background: #fff;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          width: 320px;
         }
-
-        .login-form input {
-          padding: 10px 12px;
-          margin-bottom: 18px;
+        .signup-card h2 {
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+        .signup-card label {
+          display: block;
+          margin-top: 1rem;
+          font-weight: 500;
+        }
+        .signup-card input {
+          width: 100%;
+          padding: 0.5rem;
+          margin-top: 0.25rem;
           border: 1px solid #ccc;
-          border-radius: 6px;
-          font-size: 16px;
-          transition: border-color 0.3s;
+          border-radius: 4px;
         }
-
-        .login-form input:focus {
-          border-color: #007BFF;
-          outline: none;
-        }
-
-        .login-form button {
-          padding: 10px;
-          background-color: #007BFF;
-          color: white;
-          font-size: 16px;
+        .signup-card button {
+          margin-top: 1.5rem;
+          width: 100%;
+          padding: 0.75rem;
+          background: #0073b1;
+          color: #fff;
           border: none;
-          border-radius: 6px;
+          border-radius: 4px;
+          font-size: 1rem;
           cursor: pointer;
-          transition: background-color 0.3s;
         }
-
-        .login-form button:hover {
-          background-color: #0056b3;
+        .signup-card button:hover {
+          background: #005582;
         }
       `}</style>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

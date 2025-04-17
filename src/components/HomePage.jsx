@@ -45,7 +45,7 @@ const HomePage = () => {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/pages">Pages</Link></li>
           <li><Link to="/candidates">Candidates</Link></li>
-          <li><Link to="/savedjobs">Saved Jobs</Link></li>
+          <li><Link to="/savedjobs">Saved dwdqwJobs</Link></li>
           <li><Link to="/skills">Skills</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/jobboard">JobBoard</Link></li>
@@ -57,7 +57,7 @@ const HomePage = () => {
       <section className="categories">
         <h2>Popular Categories</h2>
         <div className="category-list">
-          <Link to="/category/full-stack-development" className="category">Full-Stack Development</Link>
+          <Link to="/category/full-stack-development" className="category">Full-Stack dwqdqwd</Link>
           <Link to="/category/frontend-development" className="category">Frontend Development</Link>
           <Link to="/category/backend-development" className="category">Backend Development</Link>
           <Link to="/category/cloud-security" className="category">Cloud Security</Link>
