@@ -25,6 +25,7 @@ const App = () => {
           <Route path="/categories/:category" element={<CategoryPage />} />
 
           <Route path="/categories/:category" element={<CategoryPage />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
       </Layout>

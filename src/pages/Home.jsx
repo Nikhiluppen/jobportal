@@ -49,6 +49,7 @@ const Home = () => {
           <li><Link to="/skills">Skills</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/jobboard">JobBoard</Link></li>
+           <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/signup" className="signup-btn">Sign Up</Link></li>
         </ul>
       </nav> */}
@@ -57,7 +58,7 @@ const Home = () => {
       <section className="categories">
         <h2>Popular Categories</h2>
         <div className="category-list">
-          <Link to="/category/full-stack-development" className="category">Full-Stacksdcsc Development</Link>
+          <Link to="/category/full-stack-development" className="category">Full-Stacksdcsfefc Development</Link>
           <Link to="/category/frontend-development" className="category">Frontend Development</Link>
           <Link to="/category/backend-development" className="category">Backend Development</Link>
           <Link to="/category/cloud-security" className="category">Cloud Security</Link>
@@ -121,7 +122,7 @@ const Home = () => {
           text-decoration: none;
         }
         .signup-btn {
-          background-color: #007bff;
+          background-color:rgb(106, 255, 0);
           padding: 5px 10px;
           border-radius: 5px;
           color: #fff;
