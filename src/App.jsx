@@ -10,6 +10,7 @@ import CategoryPage from "./pages/CategoryPage";
 import SavedJobs from "./pages/SavedJobs";
 import Layout from "./components/Layout";
 import JobSearch from "./components/JobSearch";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/jobs" element={<JobSearch />} />
           <Route path="/apply/:jobId" element={<ApplyJob />} />
           <Route path="/saved-jobs" element={<SavedJobs />} />
@@ -25,7 +27,7 @@ const App = () => {
           <Route path="/categories/:category" element={<CategoryPage />} />
 
           <Route path="/categories/:category" element={<CategoryPage />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
       </Layout>

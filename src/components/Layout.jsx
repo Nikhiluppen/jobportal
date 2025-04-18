@@ -10,6 +10,7 @@ const Layout = ({ children }) => {
         <div className="logo">JobBoard</div>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/jobs">Jobs</Link></li>
           <li><Link to="/saved-jobs">Saved Jobs</Link></li>
           <li><Link to="/login">Login</Link></li>

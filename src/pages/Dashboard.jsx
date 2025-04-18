@@ -1,16 +1,24 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import jobsData from '../data/job_data.json'; 
+import jobsData from '../data/jobs_data.json';
+import './Dashboard.css';
+
+
 import {
   ResponsiveContainer,
+  PieChart, Pie, Cell,
   BarChart, Bar,
+  LineChart, Line,
   XAxis, YAxis,
   CartesianGrid, Tooltip, Legend
 } from 'recharts';
-import './home.css';
+
+const COLORS = [
+  '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
+  '#AF19FF', '#FF4560', '#00A6ED', '#E3008C'
+];
 
 export default function Dashboard() {
-  // count jobs per category
+  // 1) Jobs by Category (for Pie, Bar & Line)
   const categoryData = useMemo(() => {
     const counts = jobsData.reduce((acc, job) => {
       const cat = job.Category || 'Uncategorized';
@@ -20,80 +28,173 @@ export default function Dashboard() {
     return Object.entries(counts).map(([category, count]) => ({ category, count }));
   }, []);
 
-  // prepare stacked data for top 3 skills by location
+  // 2) Top 3 Skills by Location (Stacked Bar)
   const stackedData = useMemo(() => {
-    const skillCounts = jobsData.flatMap(j => (j.job_skills||'').split(',').map(s=>s.trim()))
+    const skillCounts = jobsData.flatMap(j => j.job_skills?.split(',').map(s => s.trim()) || [])
       .reduce((acc, skill) => {
-        if (!skill) return acc;
-        acc[skill] = (acc[skill]||0)+1;
+        acc[skill] = (acc[skill] || 0) + 1;
         return acc;
       }, {});
     const top3 = Object.entries(skillCounts)
-      .sort((a,b)=>b[1]-a[1])
+      .sort((a,b) => b[1] - a[1])
       .slice(0,3)
-      .map(([skill])=>skill);
+      .map(([skill]) => skill);
 
     const byLoc = {};
     jobsData.forEach(job => {
       const loc = job.job_location || 'Unknown';
       byLoc[loc] = byLoc[loc] || { location: loc };
-      const skills = (job.job_skills||'').split(',').map(s=>s.trim());
+      const skills = job.job_skills?.split(',').map(s => s.trim()) || [];
       top3.forEach(skill => {
-        byLoc[loc][skill] = (byLoc[loc][skill]||0) + (skills.includes(skill) ? 1 : 0);
+        byLoc[loc][skill] = (byLoc[loc][skill] || 0) + (skills.includes(skill) ? 1 : 0);
       });
     });
     return Object.values(byLoc);
   }, []);
 
+  // 3) Job Types (Pie)
+  const jobTypeData = useMemo(() => {
+    const counts = jobsData.reduce((acc, job) => {
+      const type = job.job_type || 'Other';
+      acc[type] = (acc[type] || 0) + 1;
+      return acc;
+    }, {});
+    return Object.entries(counts).map(([job_type, count]) => ({ job_type, count }));
+  }, []);
+
+  // 4) Job Levels (Bar)
+  const jobLevelData = useMemo(() => {
+    const counts = jobsData.reduce((acc, job) => {
+      const lvl = job.job_level || 'Unknown';
+      acc[lvl] = (acc[lvl] || 0) + 1;
+      return acc;
+    }, {});
+    return Object.entries(counts).map(([job_level, count]) => ({ job_level, count }));
+  }, []);
+
   return (
     <div className="dashboard-container">
-      {/* Navbar (same as HomePage) */}
-      <nav className="navbar">
-        <div className="logo">JobBoard</div>
-        <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/pages">Pages</Link></li>
-          <li><Link to="/candidates">Candidates</Link></li>
-          <li><Link to="/savedjobs">SavedJobs</Link></li>
-          <li><Link to="/skills">Skills</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/jobboard">JobBoard</Link></li>
-          <li><Link to="/signup" className="signup-btn">Sign Up</Link></li>
-        </ul>
-      </nav>
-
       <h1>Jobs Dashboard</h1>
 
-      {/* Jobs by Category */}
+      {/* Pie: Jobs by Category */}
       <section className="chart-section">
-        <h2>Jobs by Category</h2>
+        <h2>Jobs by Category (Pie)</h2>
+        <ResponsiveContainer width="100%" height={250}>
+          <PieChart>
+            <Pie
+              data={categoryData}
+              dataKey="count"
+              nameKey="category"
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              label
+            >
+              {categoryData.map((_, idx) => (
+                <Cell key={`pie-cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip formatter={v => [`${v}`, 'Jobs']} />
+            <Legend verticalAlign="bottom" height={36} />
+          </PieChart>
+        </ResponsiveContainer>
+      </section>
+
+      {/* Line: Jobs by Category */}
+      <section className="chart-section">
+        <h2>Jobs by Category (Line)</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={categoryData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="category" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line 
+              type="monotone" 
+              dataKey="count" 
+              name="Jobs" 
+              stroke={COLORS[1]} 
+              activeDot={{ r: 8 }} 
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </section>
+
+      {/* Bar: Jobs by Category */}
+      <section className="chart-section">
+        <h2>Jobs by Category (Bar)</h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={categoryData}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="category"/>
-            <YAxis/>
-            <Tooltip/>
-            <Legend/>
-            <Bar dataKey="count" name="Jobs" fill="#8884d8"/>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="category" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="count" name="Jobs" fill={COLORS[0]} />
           </BarChart>
         </ResponsiveContainer>
       </section>
 
-      {/* Top 3 Skills by Location */}
+      {/* Pie: Job Types */}
       <section className="chart-section">
-        <h2>Top 3 Skills by Location</h2>
+        <h2>Job Types Distribution</h2>
+        <ResponsiveContainer width="100%" height={250}>
+          <PieChart>
+            <Pie
+              data={jobTypeData}
+              dataKey="count"
+              nameKey="job_type"
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              label={(entry) => entry.job_type}
+            >
+              {jobTypeData.map((_, idx) => (
+                <Cell key={`type-cell-${idx}`} fill={COLORS[(idx+2) % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip formatter={v => [`${v}`, 'Jobs']} />
+            <Legend verticalAlign="bottom" height={36} />
+          </PieChart>
+        </ResponsiveContainer>
+      </section>
+
+      {/* Bar: Job Levels */}
+      <section className="chart-section">
+        <h2>Job Levels Distribution</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={jobLevelData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="job_level" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="count" name="Jobs" fill={COLORS[3]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </section>
+
+      {/* Stacked Bar: Top Skills by Location */}
+      <section className="chart-section">
+        <h2>Top 3 Skills by Location (Stacked)</h2>
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={stackedData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="location"/>
-            <YAxis/>
-            <Tooltip/>
-            <Legend/>
-            {Object.keys(stackedData[0]||{})
-              .filter(key => key !== 'location')
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="location" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {Object.keys(stackedData[0] || {})
+              .filter(k => k !== 'location')
               .map((skill, i) => (
-                <Bar key={skill} dataKey={skill} stackId="a" name={skill}/>
+                <Bar 
+                  key={`stack-${i}`}
+                  dataKey={skill}
+                  stackId="a"
+                  name={skill}
+                  fill={COLORS[(i+4) % COLORS.length]} 
+                />
               ))
             }
           </BarChart>
@@ -106,58 +207,23 @@ export default function Dashboard() {
           padding: 20px;
           background: #f9f9f9;
         }
-        .navbar {
-          display: flex;
-          align-items: center;
-          padding: 0 20px;
-          background: #fff;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .logo {
-          font-size: 1.5rem;
-          font-weight: bold;
-          margin-right: 2rem;
-        }
-        .nav-links {
-          list-style: none;
-          display: flex;
-          flex: 1;
-          margin: 0;
-          padding: 0;
-        }
-        .nav-links li {
-          margin-right: 1rem;
-        }
-        .nav-links a {
-          text-decoration: none;
-          color: #333;
-          padding: 0.5rem;
-        }
-        .nav-links a:hover {
-          background: #eef3f8;
-          border-radius: 4px;
-        }
-        .signup-btn {
-          background: #0073b1;
-          color: #fff !important;
-          padding: 0.4rem 0.8rem;
-          border-radius: 4px;
-        }
         h1 {
           text-align: center;
-          margin-top: 1rem;
+          margin-bottom: 1rem;
         }
         .chart-section {
           background: #fff;
           padding: 1rem;
-          margin: 2rem 0;
+          margin-bottom: 2rem;
           border-radius: 8px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .chart-section h2 {
           text-align: center;
+          margin-bottom: 0.5rem;
         }
       `}</style>
     </div>
   );
 }
+
