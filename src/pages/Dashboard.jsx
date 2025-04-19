@@ -160,20 +160,7 @@ export default function Dashboard() {
         </ResponsiveContainer>
       </section>
 
-      {/* Bar: Job Levels */}
-      <section className="chart-section">
-        <h2>Job Levels Distribution</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={jobLevelData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="job_level" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" name="Jobs" fill={COLORS[3]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </section>
+     
 
       {/* Stacked Bar: Top Skills by Location */}
       <section className="chart-section">
