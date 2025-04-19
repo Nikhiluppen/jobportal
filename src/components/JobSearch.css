@@ -118,3 +118,123 @@ a {
     flex-direction: row;
   }
 }
+/* Container spacing */
+.p-4 {
+  padding: 1rem;
+}
+
+/* Title styling */
+.text-2xl {
+  font-size: 1.5rem;
+}
+.font-bold {
+  font-weight: bold;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+/* Flex styling for inputs and buttons */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.md\\:flex-row {
+  flex-direction: row;
+}
+.gap-4 {
+  gap: 1rem;
+}
+
+/* Input styling */
+input[type="text"] {
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Buttons */
+button,
+a {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Search button */
+.bg-blue-600 {
+  background-color: #2563eb;
+  color: white;
+  display: block;
+}
+.bg-blue-600:hover {
+  background-color: #1e40af;
+}
+
+/* Apply button */
+.bg-green-600 {
+  background-color: #16a34a;
+}
+.bg-green-600:hover {
+  background-color: #15803d;
+}
+
+/* Save button */
+.bg-yellow-500 {
+  background-color: #facc15;
+}
+.bg-yellow-500:hover {
+  background-color: #eab308;
+}
+.text-black {
+  color: #000;
+}
+
+/* Job card */
+.border {
+  border: 1px solid #ddd;
+}
+.rounded {
+  border-radius: 0.75rem;
+}
+.shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.p-4 {
+  padding: 1rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+/* Typography */
+.font-semibold {
+  font-weight: 600;
+}
+.text-gray-600 {
+  color: #4b5563;
+}
+
+/* Utility spacing */
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .md\:flex-row {
+    flex-direction: row;
+  }
+}

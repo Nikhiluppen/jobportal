@@ -1,188 +1,145 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './home.css';
+import './home.css'; // Custom styles
+import jobsImage from '../Images/jobs.jpg'; // ✅ Import your image
 
 const Home = () => {
-  const jobs = [
-    {
-      title: "Software Engineer",
-      skills: ["Java", "Spring Boot", "SQL"],
-      location: "New York, NY",
-      description: "Develop scalable web applications and APIs.",
-    },
-    {
-      title: "Cloud Security Specialist",
-      skills: ["AWS", "Zero Trust", "Cybersecurity"],
-      location: "Remote",
-      description: "Implement security measures for cloud infrastructure.",
-    },
-    {
-      title: "Data Scientist",
-      skills: ["Python", "TensorFlow", "SQL"],
-      location: "San Francisco, CA",
-      description: "Analyze large datasets and build predictive models.",
-    },
-    {
-      title: "Frontend Developer",
-      skills: ["React", "TypeScript", "CSS"],
-      location: "Austin, TX",
-      description: "Build responsive UI components for web applications.",
-    },
-    {
-      title: "AI/ML Engineer",
-      skills: ["Python", "PyTorch", "Deep Learning"],
-      location: "Seattle, WA",
-      description: "Design and train AI models for automation.",
-    }
-  ];
-
   return (
-    <div className="home-container">
+    <div className="home-wrapper">
       {/* Navbar */}
-      {/* <nav className="navbar">
-        <div className="logo">JobBoard</div>
+      <nav className="navbar">
+        <div className="logo">SkillOverTitle</div>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/pages">Pages</Link></li>
-          <li><Link to="/candidates">Candidates</Link></li>
-          <li><Link to="/savedjobs">SavedJobs</Link></li>
-          <li><Link to="/skills">Skills</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
+          <li><Link to="/jobs">Jobs</Link></li>
+          <li><Link to="/saved-jobs">Saved Jobs</Link></li>
           <li><Link to="/login">Login</Link></li>
-          <li><Link to="/jobboard">JobBoard</Link></li>
-           <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/signup" className="signup-btn">Sign Up</Link></li>
+          <li><Link to="/signup">Sign Up</Link></li>
         </ul>
-      </nav> */}
+      </nav>
 
-      {/* Popular Categories */}
-      <section className="categories">
-        <h2>Popular Categories</h2>
-        <div className="category-list">
-          <Link to="/category/full-stack-development" className="category">Full-Stacksdcsfefc Development</Link>
-          <Link to="/category/frontend-development" className="category">Frontend Development</Link>
-          <Link to="/category/backend-development" className="category">Backend Development</Link>
-          <Link to="/category/cloud-security" className="category">Cloud Security</Link>
-          <Link to="/category/data-science" className="category">Data Science</Link>
-          <Link to="/category/ai-machine-learning" className="category">AI & Machine Learning</Link>
+      {/* Hero Section with Background Image */}
+      <section
+        className="hero-banner"
+        style={{
+          backgroundImage: `url(${jobsImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          padding: '80px 20px',
+          color: 'white',
+          borderRadius: '10px',
+          textAlign: 'center',
+          marginBottom: '40px',
+        }}
+      >
+        <div className="hero-content">
+          <h1>Find Jobs Based on What You Know, Not What They Call It.</h1>
+          <p>Discover your dream job through skills-based matching.</p>
+          <div className="search-bar">
+            <input type="text" placeholder="e.g., JavaScript, SQL" />
+            <input type="text" placeholder="Location (Optional)" />
+            <button>Search Jobs</button>
+          </div>
         </div>
       </section>
 
-      {/* Available Jobs */}
-      <section className="job-listings">
-        <h2>Available Jobs</h2>
-        <div className="job-list">
-          {jobs.map((job, index) => (
-            <div key={index} className="job-card">
-              <h3>{job.title}</h3>
-              <p><strong>Skills:</strong> {job.skills.join(", ")}</p>
-              <p><strong>Location:</strong> {job.location}</p>
-              <p><strong>Description:</strong> {job.description}</p>
-              <Link to={`/apply/${index}`} className="apply-btn">Apply Now</Link>
-            </div>
-          ))}
+      {/* Filters */}
+      <section className="filters-section">
+        <h2>Browse Jobs</h2>
+        <div className="filters">
+          <select><option>All Skills</option></select>
+          <select><option>Location</option></select>
+          <select><option>Job Type</option></select>
+          <select><option>Experience Level</option></select>
         </div>
+      </section>
+
+      {/* Featured Jobs */}
+      <section className="featured-jobs">
+        <h2>Featured Jobs</h2>
+        <div className="job-card">
+          <h3>Frontend Developer</h3>
+          <p><strong>Skills:</strong> React, CSS, JavaScript</p>
+          <p><strong>Location:</strong> Remote</p>
+          <p><strong>Description:</strong> Build and maintain UI components for a job platform.</p>
+          <Link to="/apply/1" className="apply-btn">Apply Now</Link>
+        </div>
+      </section>
+
+      {/* Add Profile Section */}
+<section className="create-profile">
+  <h2>Create Your Profile</h2>
+  <p>Stand out to employers by building your profile and uploading your resume.</p>
+
+  <form className="profile-form">
+    <input type="text" placeholder="Full Name" required />
+    <input type="email" placeholder="Email Address" required />
+    <input type="text" placeholder="Skills (e.g., React, AWS, SQL)" required />
+    <select>
+      <option value="">Experience Level</option>
+      <option value="fresher">Fresher</option>
+      <option value="mid">Mid-Level</option>
+      <option value="senior">Senior</option>
+    </select>
+    <textarea placeholder="Short Bio (100 words max)"></textarea>
+
+    <label className="upload-label">
+      Upload Resume:
+      <input type="file" accept=".pdf,.doc,.docx" />
+    </label>
+
+    <button type="submit" className="submit-btn">Submit Profile</button>
+  </form>
+</section>
+
+
+      {/* Why Use Our Platform */}
+      <section className="why-choose-us">
+        <h2>Why Use Our Platform?</h2>
+        <div className="cards">
+          <div className="card">✅ Skill-based filtering</div>
+          <div className="card">⚡ Real-time listings</div>
+          <div className="card">🧾 Easy application process</div>
+          <div className="card">📊 Dashboard to track</div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="cta-section">
+        <div className="cta-jobseeker">
+          <h3>Create Your Profile Today and Get Matched Instantly</h3>
+          <Link to="/signup" className="cta-btn">Sign Up</Link>
+        </div>
+        <div className="cta-employer">
+          <h3>Looking for Talent? Post Jobs Now</h3>
+          <Link to="/postjob" className="cta-btn">Post a Job</Link>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="testimonials">
+        <h2>What People Say</h2>
+        <p>“This platform helped me find the right job in days!” </p>
+      </section>
+
+      {/* Newsletter */}
+      <section className="newsletter">
+        <h2>Get the latest job openings straight to your inbox</h2>
+        <input type="email" placeholder="Enter your email" />
+        <button>Subscribe</button>
       </section>
 
       {/* Footer */}
-      <footer>
-        <p>&copy; 2025 Job Board. All rights reserved</p>
+      <footer className="footer">
+        <p>Contact us: +1 (314) 444-4444</p>
+        <ul>
+          <li><Link to="/privacy">Privacy Policy</Link></li>
+          <li><Link to="/terms">Terms & Conditions</Link></li>
+        </ul>
+        <p>Follow us: [FB] [X] [LinkedIn]</p>
+        <p>&copy; 2025 SkillOverTitle. All rights reserved.</p>
       </footer>
-
-      {/* Embedded CSS Styling */}
-      <style>{`
-        .home-container {
-          font-family: Arial, sans-serif;
-          padding: 20px;
-          background-color: #f9f9f9;
-        }
-        // .navbar {
-          
-        //   display: flex;
-        //   justify-content: space-between;
-        //   align-items: center;
-        //   background-color: #333;
-        //   padding: 10px 20px;
-        // }
-        // .navbar .logo {
-        //   color: #fff;
-        //   font-size: 1.5rem;
-        //   font-weight: bold;
-        // }
-        .nav-links {
-          list-style: none;
-          display: flex;
-          margin: 0;
-          padding: 0;
-        }
-        .nav-links li {
-          margin: 0 10px;
-        }
-        .nav-links a {
-          color: #fff;
-          text-decoration: none;
-        }
-        .signup-btn {
-          background-color:rgb(106, 255, 0);
-          padding: 5px 10px;
-          border-radius: 5px;
-          color: #fff;
-        }
-        // .categories {
-        //   margin: 20px 0;
-        //   padding: 20px;
-        //   background-color: #fff;
-        //   border-radius: 5px;
-        //   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        // }
-        // .category-list {
-        //   display: flex;
-        //   flex-wrap: wrap;
-        //   gap: 10px;
-        //   margin-top: 10px;
-        // }
-        // .category {
-        //   background-color: #eee;
-        //   padding: 8px 12px;
-        //   border-radius: 5px;
-        //   text-decoration: none;
-        //   color: #333;
-        // }
-        .job-listings {
-          margin: 20px 0;
-        }
-        .job-list {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 20px;
-        }
-        .job-card {
-          background-color: #fff;
-          padding: 15px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .apply-btn {
-          display: inline-block;
-          margin-top: 10px;
-          padding: 8px 16px;
-          background-color: #28a745;
-          color: #fff;
-          text-decoration: none;
-          border-radius: 5px;
-          transition: background-color 0.3s;
-        }
-        .apply-btn:hover {
-          background-color: #218838;
-        }
-        footer {
-          text-align: center;
-          padding: 20px;
-          background-color: #333;
-          color: #fff;
-          margin-top: 40px;
-        }
-      `}</style>
     </div>
   );
 };
