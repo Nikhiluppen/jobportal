@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       {/* Navbar */}
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <div className="logo">SkillOverTitle</div>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
@@ -17,7 +17,7 @@ const Home = () => {
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign Up</Link></li>
         </ul>
-      </nav>
+      </nav> */}
 
       {/* Hero Section with Background Image */}
       <section
