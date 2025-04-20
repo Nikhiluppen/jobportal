@@ -1,28 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './home.css';
 import jobsImage from '../Images/jobs.jpg';
-import ishowspeed from '../Images/ishowspeed.jpg'; // Make sure this image exists
-
+import ishowspeed from '../Images/ishowspeed.jpg';
 
 const Home = () => {
+  const location = useLocation();
+  const user = location.state || JSON.parse(localStorage.getItem('userData')) || {};
+
   return (
     <div className="home-wrapper">
+      {/* Greeting */}
+      <div style={{ textAlign: 'center', margin: '20px 0' }}>
+        <h1>Welcome, {user.name || 'Guest'}!</h1>
+        {user.email && <p>Email: {user.email}</p>}
+      </div>
+      <input type="text" placeholder="Full Name" defaultValue={user.name} required />
+<input type="email" placeholder="Email Address" defaultValue={user.email} required />
 
       {/* Hero Section */}
-      <section
-        className="hero-banner"
-        style={{
-          backgroundImage: `url(${jobsImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          padding: '80px 20px',
-          color: 'white',
-          borderRadius: '10px',
-          textAlign: 'center',
-          marginBottom: '40px',
-        }}
-      >
+      <section className="hero-banner" style={{
+        backgroundImage: `url(${jobsImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '80px 20px',
+        color: 'white',
+        borderRadius: '10px',
+        textAlign: 'center',
+        marginBottom: '40px',
+      }}>
         <div className="hero-content">
           <h1>Find Jobs Based on What You Know, Not What They Call It.</h1>
           <p>Discover your dream job through skills-based matching.</p>
@@ -57,8 +63,6 @@ const Home = () => {
           <Link to="/apply/3" className="apply-btn">Apply Now</Link>
         </div>
       </section>
-      
-
 
       {/* Create Profile Section */}
       <section className="create-profile">
@@ -93,7 +97,6 @@ const Home = () => {
           <p><strong>Matched Skills:</strong> Node.js, Express, MongoDB</p>
           <Link to="/apply/5" className="apply-btn">Apply Now</Link>
         </div>
-        {/* More can be dynamically added based on backend logic */}
       </section>
 
       {/* Why Use Our Platform */}
