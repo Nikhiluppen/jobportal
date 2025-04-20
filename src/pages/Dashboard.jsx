@@ -1,15 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import jobsData from '../data/jobs_data.json';
 import './Dashboard.css';
-
-
 import {
-  ResponsiveContainer,
-  PieChart, Pie, Cell,
-  BarChart, Bar,
-  LineChart, Line,
-  XAxis, YAxis,
-  CartesianGrid, Tooltip, Legend
+  BarChart, Bar, PieChart, Pie, Cell, LineChart, Line,
+  XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer
 } from 'recharts';
 
 const COLORS = [
@@ -17,8 +11,29 @@ const COLORS = [
   '#AF19FF', '#FF4560', '#00A6ED', '#E3008C'
 ];
 
-export default function Dashboard() {
-  // 1) Jobs by Category (for Pie, Bar & Line)
+const Dashboard = () => {
+  const [selectedState, setSelectedState] = useState("All");
+  const [selectedLevel, setSelectedLevel] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredJobs = useMemo(() => {
+    return jobsData.filter(job => {
+      const matchState = selectedState === "All" || job.State_Column === selectedState;
+      const matchLevel = selectedLevel === "All" || job.job_level === selectedLevel;
+      const matchCategory = selectedCategory === "All" || job.Category === selectedCategory;
+      return matchState && matchLevel && matchCategory;
+    });
+  }, [selectedState, selectedLevel, selectedCategory]);
+
+  const countByField = (field) => {
+    const counts = {};
+    filteredJobs.forEach(job => {
+      const value = job[field] || 'Other';
+      counts[value] = (counts[value] || 0) + 1;
+    });
+    return Object.entries(counts).map(([name, value]) => ({ name, value }));
+  };
+
   const categoryData = useMemo(() => {
     const counts = jobsData.reduce((acc, job) => {
       const cat = job.Category || 'Uncategorized';
@@ -28,7 +43,6 @@ export default function Dashboard() {
     return Object.entries(counts).map(([category, count]) => ({ category, count }));
   }, []);
 
-  // 2) Top 3 Skills by Location (Stacked Bar)
   const stackedData = useMemo(() => {
     const skillCounts = jobsData.flatMap(j => j.job_skills?.split(',').map(s => s.trim()) || [])
       .reduce((acc, skill) => {
@@ -52,31 +66,80 @@ export default function Dashboard() {
     return Object.values(byLoc);
   }, []);
 
-  // 3) Job Types (Pie)
-  const jobTypeData = useMemo(() => {
-    const counts = jobsData.reduce((acc, job) => {
-      const type = job.job_type || 'Other';
-      acc[type] = (acc[type] || 0) + 1;
-      return acc;
-    }, {});
-    return Object.entries(counts).map(([job_type, count]) => ({ job_type, count }));
-  }, []);
-
-  // 4) Job Levels (Bar)
-  const jobLevelData = useMemo(() => {
-    const counts = jobsData.reduce((acc, job) => {
-      const lvl = job.job_level || 'Unknown';
-      acc[lvl] = (acc[lvl] || 0) + 1;
-      return acc;
-    }, {});
-    return Object.entries(counts).map(([job_level, count]) => ({ job_level, count }));
-  }, []);
-
   return (
     <div className="dashboard-container">
-      <h1>Jobs Dashboard</h1>
+      <h1 className="title">📊 Skill-Based Job Dashboard</h1>
 
-      {/* Pie: Jobs by Category */}
+      {/* Filters */}
+      <div className="filters">
+        <select onChange={e => setSelectedState(e.target.value)} value={selectedState}>
+          <option>All</option><option>TX</option><option>MO</option><option>Other</option>
+        </select>
+        <select onChange={e => setSelectedLevel(e.target.value)} value={selectedLevel}>
+          <option>All</option><option>Mid senior</option><option>Associate</option>
+        </select>
+        <select onChange={e => setSelectedCategory(e.target.value)} value={selectedCategory}>
+          <option>All</option>
+          <option>Backend Development</option>
+          <option>Data Science</option>
+          <option>Frontend Development</option>
+          <option>Cloud Security</option>
+          <option>Full-Stack</option>
+        </select>
+      </div>
+
+      {/* Bar Chart: Job Type */}
+      <h2>Job Count by Type</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={countByField("job_type")}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="value" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      
+      
+
+      {/* Line Chart: Job by Location */}
+      <h2>Job Count by Location</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={countByField("job_location")}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="value" stroke="#00C49F" />
+        </LineChart>
+      </ResponsiveContainer>
+
+      {/* Table: Job Count by Company */}
+      <h2>Top Companies Hiring</h2>
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Job Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {countByField("company")
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 10)
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.value}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+      {/* Extra Charts: Jobs by Category */}
       <section className="chart-section">
         <h2>Jobs by Category (Pie)</h2>
         <ResponsiveContainer width="100%" height={250}>
@@ -100,8 +163,7 @@ export default function Dashboard() {
         </ResponsiveContainer>
       </section>
 
-      {/* Line: Jobs by Category */}
-      <section className="chart-section">
+      {/* <section className="chart-section">
         <h2>Jobs by Category (Line)</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={categoryData}>
@@ -119,9 +181,8 @@ export default function Dashboard() {
             />
           </LineChart>
         </ResponsiveContainer>
-      </section>
+      </section> */}
 
-      {/* Bar: Jobs by Category */}
       <section className="chart-section">
         <h2>Jobs by Category (Bar)</h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -135,32 +196,6 @@ export default function Dashboard() {
           </BarChart>
         </ResponsiveContainer>
       </section>
-
-      {/* Pie: Job Types */}
-      <section className="chart-section">
-        <h2>Job Types Distribution</h2>
-        <ResponsiveContainer width="100%" height={250}>
-          <PieChart>
-            <Pie
-              data={jobTypeData}
-              dataKey="count"
-              nameKey="job_type"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              label={(entry) => entry.job_type}
-            >
-              {jobTypeData.map((_, idx) => (
-                <Cell key={`type-cell-${idx}`} fill={COLORS[(idx+2) % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip formatter={v => [`${v}`, 'Jobs']} />
-            <Legend verticalAlign="bottom" height={36} />
-          </PieChart>
-        </ResponsiveContainer>
-      </section>
-
-     
 
       {/* Stacked Bar: Top Skills by Location */}
       <section className="chart-section">
@@ -182,35 +217,12 @@ export default function Dashboard() {
                   name={skill}
                   fill={COLORS[(i+4) % COLORS.length]} 
                 />
-              ))
-            }
+              ))}
           </BarChart>
         </ResponsiveContainer>
       </section>
-
-      <style>{`
-        .dashboard-container {
-          font-family: Arial, sans-serif;
-          padding: 20px;
-          background: #f9f9f9;
-        }
-        h1 {
-          text-align: center;
-          margin-bottom: 1rem;
-        }
-        .chart-section {
-          background: #fff;
-          padding: 1rem;
-          margin-bottom: 2rem;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .chart-section h2 {
-          text-align: center;
-          margin-bottom: 0.5rem;
-        }
-      `}</style>
     </div>
   );
-}
+};
 
+export default Dashboard;

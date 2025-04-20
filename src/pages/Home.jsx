@@ -1,25 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './home.css'; // Custom styles
-import jobsImage from '../Images/jobs.jpg'; // ✅ Import your image
+import './home.css';
+import jobsImage from '../Images/jobs.jpg';
+import ishowspeed from '../Images/ishowspeed.jpg'; // Make sure this image exists
+
 
 const Home = () => {
   return (
     <div className="home-wrapper">
-      {/* Navbar */}
-      {/* <nav className="navbar">
-        <div className="logo">SkillOverTitle</div>
-        <ul className="nav-links">
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/jobs">Jobs</Link></li>
-          <li><Link to="/saved-jobs">Saved Jobs</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/signup">Sign Up</Link></li>
-        </ul>
-      </nav> */}
 
-      {/* Hero Section with Background Image */}
+      {/* Hero Section */}
       <section
         className="hero-banner"
         style={{
@@ -36,28 +26,13 @@ const Home = () => {
         <div className="hero-content">
           <h1>Find Jobs Based on What You Know, Not What They Call It.</h1>
           <p>Discover your dream job through skills-based matching.</p>
-          <div className="search-bar">
-            <input type="text" placeholder="e.g., JavaScript, SQL" />
-            <input type="text" placeholder="Location (Optional)" />
-            <button>Search Jobs</button>
-          </div>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <section className="filters-section">
-        <h2>Browse Jobs</h2>
-        <div className="filters">
-          <select><option>All Skills</option></select>
-          <select><option>Location</option></select>
-          <select><option>Job Type</option></select>
-          <select><option>Experience Level</option></select>
         </div>
       </section>
 
       {/* Featured Jobs */}
       <section className="featured-jobs">
         <h2>Featured Jobs</h2>
+
         <div className="job-card">
           <h3>Frontend Developer</h3>
           <p><strong>Skills:</strong> React, CSS, JavaScript</p>
@@ -65,62 +40,83 @@ const Home = () => {
           <p><strong>Description:</strong> Build and maintain UI components for a job platform.</p>
           <Link to="/apply/1" className="apply-btn">Apply Now</Link>
         </div>
+
+        <div className="job-card">
+          <h3>Cloud Engineer</h3>
+          <p><strong>Skills:</strong> AWS, Terraform, DevOps</p>
+          <p><strong>Location:</strong> Texas</p>
+          <p><strong>Description:</strong> Manage cloud deployments and automation scripts.</p>
+          <Link to="/apply/2" className="apply-btn">Apply Now</Link>
+        </div>
+
+        <div className="job-card">
+          <h3>Data Analyst</h3>
+          <p><strong>Skills:</strong> Python, SQL, Power BI</p>
+          <p><strong>Location:</strong> Missouri</p>
+          <p><strong>Description:</strong> Analyze data and visualize trends for business teams.</p>
+          <Link to="/apply/3" className="apply-btn">Apply Now</Link>
+        </div>
+      </section>
+      
+
+
+      {/* Create Profile Section */}
+      <section className="create-profile">
+        <h2>Create Your Profile</h2>
+        <p>Stand out to employers by building your profile and uploading your resume.</p>
+
+        <form className="profile-form">
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email Address" required />
+          <textarea placeholder="Previous Experience" required></textarea>
+          <textarea placeholder="Projects" required></textarea>
+          <textarea placeholder="Certifications" required></textarea>
+          <textarea placeholder="Short Bio (100 words max)" required></textarea>
+          <label className="upload-label">
+            Upload Resume:
+            <input type="file" accept=".pdf,.doc,.docx" />
+          </label>
+          <button type="submit" className="submit-btn">Submit Profile</button>
+        </form>
       </section>
 
-      {/* Add Profile Section */}
-<section className="create-profile">
-  <h2>Create Your Profile</h2>
-  <p>Stand out to employers by building your profile and uploading your resume.</p>
-
-  <form className="profile-form">
-    <input type="text" placeholder="Full Name" required />
-    <input type="email" placeholder="Email Address" required />
-    <input type="text" placeholder="Skills (e.g., React, AWS, SQL)" required />
-    <select>
-      <option value="">Experience Level</option>
-      <option value="fresher">Fresher</option>
-      <option value="mid">Mid-Level</option>
-      <option value="senior">Senior</option>
-    </select>
-    <textarea placeholder="Short Bio (100 words max)"></textarea>
-
-    <label className="upload-label">
-      Upload Resume:
-      <input type="file" accept=".pdf,.doc,.docx" />
-    </label>
-
-    <button type="submit" className="submit-btn">Submit Profile</button>
-  </form>
-</section>
-
+      {/* Job Recommendations */}
+      <section className="job-recommendations">
+        <h2>Recommended Jobs for You</h2>
+        <div className="job-card">
+          <h3>Full Stack Developer</h3>
+          <p><strong>Matched Skills:</strong> React, Node.js</p>
+          <Link to="/apply/4" className="apply-btn">Apply Now</Link>
+        </div>
+        <div className="job-card">
+          <h3>Backend Developer</h3>
+          <p><strong>Matched Skills:</strong> Node.js, Express, MongoDB</p>
+          <Link to="/apply/5" className="apply-btn">Apply Now</Link>
+        </div>
+        {/* More can be dynamically added based on backend logic */}
+      </section>
 
       {/* Why Use Our Platform */}
       <section className="why-choose-us">
         <h2>Why Use Our Platform?</h2>
         <div className="cards">
           <div className="card">✅ Skill-based filtering</div>
-          <div className="card">⚡ Real-time listings</div>
           <div className="card">🧾 Easy application process</div>
           <div className="card">📊 Dashboard to track</div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="cta-section">
-        <div className="cta-jobseeker">
-          <h3>Create Your Profile Today and Get Matched Instantly</h3>
-          <Link to="/signup" className="cta-btn">Sign Up</Link>
-        </div>
-        <div className="cta-employer">
-          <h3>Looking for Talent? Post Jobs Now</h3>
-          <Link to="/postjob" className="cta-btn">Post a Job</Link>
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="testimonials">
         <h2>What People Say</h2>
-        <p>“This platform helped me find the right job in days!” </p>
+        <div className="testimonial-card">
+          <img src={ishowspeed} alt="I Show Speed" style={{ width: '150px', borderRadius: '50%' }} />
+          <p>
+            My name is I Show Speed, I am so elated to share my experience with the SkillOverTitle website. 
+            This website helped me to land in a job that I dreamt of. 
+            Job recommendation features, and the personalized dashboard made me apply for the positions which aligned with my skill.
+          </p>
+        </div>
       </section>
 
       {/* Newsletter */}
