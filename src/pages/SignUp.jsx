@@ -2,103 +2,118 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-  const [form, setForm] = useState({ name: '', email: '', headline: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const navigate = useNavigate();
 
   const handleChange = e => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    localStorage.setItem('userData', JSON.stringify(form));
     navigate('/home', { state: form });
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-card">
-        <h2>Create Your Profile</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Your Name</label>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Create an Account</h2>
+        <form onSubmit={handleSubmit} style={styles.form}>
           <input
+            style={styles.input}
+            type="text"
             name="name"
             value={form.name}
             onChange={handleChange}
-            placeholder="e.g. Jane Doe"
+            placeholder="Full Name"
             required
           />
-
-          <label>Email</label>
           <input
+            style={styles.input}
             type="email"
             name="email"
             value={form.email}
             onChange={handleChange}
-            placeholder="you@example.com"
+            placeholder="Email Address"
             required
           />
-
-          <label>Headline</label>
           <input
-            name="headline"
-            value={form.headline}
+            style={styles.input}
+            type="password"
+            name="password"
+            value={form.password}
             onChange={handleChange}
-            placeholder="e.g. Frontend Developer"
+            placeholder="Password"
             required
           />
-
-          <button type="submit">Continue</button>
+          <input
+            style={styles.input}
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            required
+          />
+          <button type="submit" style={styles.button}>Sign Up</button>
         </form>
       </div>
-
-      <style>{`
-        .signup-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background: #f3f2ef;
-        }
-        .signup-card {
-          background: #fff;
-          padding: 2rem;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-          width: 320px;
-        }
-        .signup-card h2 {
-          margin-bottom: 1rem;
-          text-align: center;
-        }
-        .signup-card label {
-          display: block;
-          margin-top: 1rem;
-          font-weight: 500;
-        }
-        .signup-card input {
-          width: 100%;
-          padding: 0.5rem;
-          margin-top: 0.25rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-        .signup-card button {
-          margin-top: 1.5rem;
-          width: 100%;
-          padding: 0.75rem;
-          background: #0073b1;
-          color: #fff;
-          border: none;
-          border-radius: 4px;
-          font-size: 1rem;
-          cursor: pointer;
-        }
-        .signup-card button:hover {
-          background: #005582;
-        }
-      `}</style>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    background: 'linear-gradient(to right, #a1c4fd, #c2e9fb)',
+    fontFamily: 'Arial, sans-serif'
+  },
+  card: {
+    background: '#fff',
+    padding: '40px',
+    borderRadius: '15px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+    width: '100%',
+    maxWidth: '400px',
+    textAlign: 'center'
+  },
+  title: {
+    marginBottom: '25px',
+    color: '#333',
+    fontSize: '24px',
+    fontWeight: 'bold'
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px'
+  },
+  input: {
+    padding: '12px',
+    fontSize: '14px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+    outline: 'none'
+  },
+  button: {
+    marginTop: '10px',
+    padding: '12px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background 0.3s ease',
+  }
 };
 
 export default SignUp;
