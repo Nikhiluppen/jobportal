@@ -14,6 +14,9 @@ const Home = () => {
       {/* <div style={{ textAlign: 'center', margin: '20px 0' }}>
         <h1>Welcome, {user.name || 'Guest'}!</h1>
         {user.email && <p>Email: {user.email}</p>}
+
+
+        asdasd
       </div>
       <input type="text" placeholder="Full Name" defaultValue={user.name} required />
 <input type="email" placeholder="Email Address" defaultValue={user.email} required /> */}

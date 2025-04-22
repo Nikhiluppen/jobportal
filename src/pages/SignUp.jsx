@@ -51,6 +51,7 @@ const SignUp = () => {
             placeholder="Password"
             required
           />
+           
           <input
             style={styles.input}
             type="password"
