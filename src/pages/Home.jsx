@@ -11,12 +11,15 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       {/* Greeting */}
-      <div style={{ textAlign: 'center', margin: '20px 0' }}>
+      {/* <div style={{ textAlign: 'center', margin: '20px 0' }}>
         <h1>Welcome, {user.name || 'Guest'}!</h1>
         {user.email && <p>Email: {user.email}</p>}
+
+
+        asdasd
       </div>
       <input type="text" placeholder="Full Name" defaultValue={user.name} required />
-<input type="email" placeholder="Email Address" defaultValue={user.email} required />
+<input type="email" placeholder="Email Address" defaultValue={user.email} required /> */}
 
       {/* Hero Section */}
       <section className="hero-banner" style={{

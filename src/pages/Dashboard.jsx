@@ -163,7 +163,7 @@ const Dashboard = () => {
         </ResponsiveContainer>
       </section>
 
-      {/* <section className="chart-section">
+      /* <section className="chart-section">
         <h2>Jobs by Category (Line)</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={categoryData}>
@@ -171,6 +171,7 @@ const Dashboard = () => {
             <XAxis dataKey="category" />
             <YAxis />
             <Tooltip />
+            
             <Legend />
             <Line 
               type="monotone" 
@@ -181,7 +182,7 @@ const Dashboard = () => {
             />
           </LineChart>
         </ResponsiveContainer>
-      </section> */}
+      </section> */
 
       <section className="chart-section">
         <h2>Jobs by Category (Bar)</h2>
