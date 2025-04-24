@@ -132,7 +132,7 @@ export default function SignIn() {
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link href="/sign-up" variant="body2">
-                Sign up
+                Sign up here
               </Link>
             </Typography>
           </Box>

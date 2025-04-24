@@ -107,6 +107,10 @@ const styles = {
     textAlign: 'center',
     marginBottom: '30px',
   },
+  jobInfo: {
+    textAlign: 'center',
+    marginBottom: '30px',
+  },
   jobTitle: {
     fontSize: '28px',
     color: '#333',
