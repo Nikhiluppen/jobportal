@@ -52,7 +52,7 @@ const Home = () => {
 
         <div className="job-card">
           <h3>Cloud Engineer</h3>
-          <p><strong>Skills:</strong> AWS, Terraform, DevOps</p>
+          <p><strong>Skills:</strong> AWS, Terraform, DevOps,Cloud</p>
           <p><strong>Location:</strong> Texas</p>
           <p><strong>Description:</strong> Manage cloud deployments and automation scripts.</p>
           <Link to="/apply/2" className="apply-btn">Apply Now</Link>

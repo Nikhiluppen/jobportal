@@ -123,5 +123,11 @@
   .filters {
     flex-direction: column;
     align-items: stretch;
+  }}
+  /* Responsive Adjustments */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
