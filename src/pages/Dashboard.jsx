@@ -5,66 +5,84 @@ import {
   BarChart, Bar, PieChart, Pie, Cell, LineChart, Line,
   XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer
 } from 'recharts';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const COLORS = [
   '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
   '#AF19FF', '#FF4560', '#00A6ED', '#E3008C'
 ];
 
-const Dashboard = () => {
-  const [selectedState, setSelectedState] = useState("All");
-  const [selectedLevel, setSelectedLevel] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+export default function Dashboard() {
+  // Multi-select filter state
+  const [states, setStates] = useState([]);
+  const [levels, setLevels] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [skills, setSkills] = useState([]);
 
-  const filteredJobs = useMemo(() => {
-    return jobsData.filter(job => {
-      const matchState = selectedState === "All" || job.State_Column === selectedState;
-      const matchLevel = selectedLevel === "All" || job.job_level === selectedLevel;
-      const matchCategory = selectedCategory === "All" || job.Category === selectedCategory;
-      return matchState && matchLevel && matchCategory;
-    });
-  }, [selectedState, selectedLevel, selectedCategory]);
+  // Enrich jobs with state code and skills array
+  const jobs = useMemo(() => jobsData.map(job => {
+    const loc = job.job_location || '';
+    const match = loc.match(/,?\s*([A-Z]{2})$/);
+    const state = match ? match[1] : 'Other';
+    const skillsList = (job.job_skills || '')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    return { ...job, state, skills: skillsList };
+  }), []);
 
-  const countByField = (field) => {
-    const counts = {};
-    filteredJobs.forEach(job => {
-      const value = job[field] || 'Other';
-      counts[value] = (counts[value] || 0) + 1;
-    });
-    return Object.entries(counts).map(([name, value]) => ({ name, value }));
-  };
+  // Options for each filter dropdown
+  const stateOptions = useMemo(() => Array.from(new Set(jobs.map(j => j.state))), [jobs]);
+  const levelOptions = useMemo(() => Array.from(new Set(jobs.map(j => j['job level'] || 'Other'))), [jobs]);
+  const categoryOptions = useMemo(() => Array.from(new Set(jobs.map(j => j.Category || 'Other'))), [jobs]);
+  const skillOptions = useMemo(() => Array.from(new Set(jobs.flatMap(j => j.skills))).sort(), [jobs]);
 
-  const categoryData = useMemo(() => {
-    const counts = jobsData.reduce((acc, job) => {
-      const cat = job.Category || 'Uncategorized';
-      acc[cat] = (acc[cat] || 0) + 1;
+  // Apply multi-select filters
+  const filtered = useMemo(() => jobs.filter(job => {
+    const okState = !states.length || states.includes(job.state);
+    const okLevel = !levels.length || levels.includes(job['job level']);
+    const okCat = !categories.length || categories.includes(job.Category);
+    const okSkill = !skills.length || job.skills.some(s => skills.includes(s));
+    return okState && okLevel && okCat && okSkill;
+  }), [jobs, states, levels, categories, skills]);
+
+  // Helper to count by any field
+  const countByField = field => Object.entries(
+    filtered.reduce((acc, job) => {
+      const key = job[field] || 'Other';
+      acc[key] = (acc[key] || 0) + 1;
       return acc;
-    }, {});
-    return Object.entries(counts).map(([category, count]) => ({ category, count }));
-  }, []);
+    }, {})
+  ).map(([name, value]) => ({ name, value }));
 
+  // Chart datasets
+  const categoryData = useMemo(() => countByField('Category'), [filtered]);
+  const companyData  = useMemo(() => countByField('company'), [filtered]);
   const stackedData = useMemo(() => {
-    const skillCounts = jobsData.flatMap(j => j.job_skills?.split(',').map(s => s.trim()) || [])
-      .reduce((acc, skill) => {
-        acc[skill] = (acc[skill] || 0) + 1;
-        return acc;
-      }, {});
-    const top3 = Object.entries(skillCounts)
-      .sort((a,b) => b[1] - a[1])
-      .slice(0,3)
-      .map(([skill]) => skill);
+    const allSkills = filtered.flatMap(j => j.skills);
+    const top3 = Object.entries(
+      allSkills.reduce((acc, s) => ({ ...acc, [s]: (acc[s] || 0) + 1 }), {})
+    )
+      .sort(([,a],[,b]) => b - a)
+      .slice(0, 3)
+      .map(([s]) => s);
 
     const byLoc = {};
-    jobsData.forEach(job => {
+    filtered.forEach(job => {
       const loc = job.job_location || 'Unknown';
       byLoc[loc] = byLoc[loc] || { location: loc };
-      const skills = job.job_skills?.split(',').map(s => s.trim()) || [];
       top3.forEach(skill => {
-        byLoc[loc][skill] = (byLoc[loc][skill] || 0) + (skills.includes(skill) ? 1 : 0);
+        byLoc[loc][skill] = (byLoc[loc][skill] || 0) + (job.skills.includes(skill) ? 1 : 0);
       });
     });
     return Object.values(byLoc);
-  }, []);
+  }, [filtered]);
 
   return (
     <div className="dashboard-container">
@@ -72,134 +90,145 @@ const Dashboard = () => {
 
       {/* Filters */}
       <div className="filters">
-        <select onChange={e => setSelectedState(e.target.value)} value={selectedState}>
-          <option>All</option><option>TX</option><option>MO</option><option>Other</option>
-        </select>
-        <select onChange={e => setSelectedLevel(e.target.value)} value={selectedLevel}>
-          <option>All</option><option>Mid senior</option><option>Associate</option>
-        </select>
-        <select onChange={e => setSelectedCategory(e.target.value)} value={selectedCategory}>
-          <option>All</option>
-          <option>Backend Development</option>
-          <option>Data Science</option>
-          <option>Frontend Development</option>
-          <option>Cloud Security</option>
-          <option>Full-Stack</option>
-        </select>
+        <Autocomplete
+          multiple options={stateOptions} value={states} onChange={(_, v) => setStates(v)}
+          disableCloseOnSelect getOptionLabel={opt => opt}
+          renderOption={(props, opt, { selected }) => (
+            <li {...props}>
+              <Checkbox icon={icon} checkedIcon={checkedIcon} checked={selected} />
+              {opt}
+            </li>
+          )}
+          renderInput={params => <TextField {...params} label="States" placeholder="Select states" />}
+          style={{ minWidth: 180 }}
+        />
+        <Autocomplete
+          multiple options={levelOptions} value={levels} onChange={(_, v) => setLevels(v)}
+          disableCloseOnSelect getOptionLabel={opt => opt}
+          renderOption={(props, opt, { selected }) => (
+            <li {...props}>
+              <Checkbox icon={icon} checkedIcon={checkedIcon} checked={selected} />
+              {opt}
+            </li>
+          )}
+          renderInput={params => <TextField {...params} label="Levels" placeholder="Select levels" />}
+          style={{ minWidth: 180 }}
+        />
+        <Autocomplete
+          multiple options={categoryOptions} value={categories} onChange={(_, v) => setCategories(v)}
+          disableCloseOnSelect getOptionLabel={opt => opt}
+          renderOption={(props, opt, { selected }) => (
+            <li {...props}>
+              <Checkbox icon={icon} checkedIcon={checkedIcon} checked={selected} />
+              {opt}
+            </li>
+          )}
+          renderInput={params => <TextField {...params} label="Categories" placeholder="Select categories" />}
+          style={{ minWidth: 180 }}
+        />
+        <Autocomplete
+          multiple options={skillOptions} value={skills} onChange={(_, v) => setSkills(v)}
+          disableCloseOnSelect getOptionLabel={opt => opt}
+          renderOption={(props, opt, { selected }) => (
+            <li {...props}>
+              <Checkbox icon={icon} checkedIcon={checkedIcon} checked={selected} />
+              {opt}
+            </li>
+          )}
+          renderInput={params => <TextField {...params} label="Skills" placeholder="Select skills" />}
+          style={{ minWidth: 240 }}
+        />
       </div>
 
-      {/* Bar Chart: Job Type */}
-      <h2>Job Count by Type</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={countByField("job_type")}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="value" fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
+      {/* Job Count by Type */}
+      <section className="chart-section job-type-chart">
+        <h2>Job Count by Type</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={countByField('job_type')}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="value" fill={COLORS[0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </section>
 
-      
-      
+      {/* Job Count by Location */}
+      <section className="chart-section job-location-chart">
+        <h2>Job Count by Location</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={countByField('job_location')}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="value" stroke={COLORS[1]} />
+          </LineChart>
+        </ResponsiveContainer>
+      </section>
 
-      {/* Line Chart: Job by Location */}
-      <h2>Job Count by Location</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={countByField("job_location")}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="value" stroke="#00C49F" />
-        </LineChart>
-      </ResponsiveContainer>
+      {/* Top Companies Hiring */}
+      <section className="chart-section companies-chart">
+        <h2>Top Companies Hiring</h2>
+        <table className="data-table">
+          <thead>
+            <tr><th>Company</th><th>Count</th></tr>
+          </thead>
+          <tbody>
+            {companyData
+              .sort((a, b) => b.value - a.value)
+              .slice(0, 10)
+              .map((it, i) => (
+                <tr key={i}><td>{it.name}</td><td>{it.value}</td></tr>
+              ))}
+          </tbody>
+        </table>
+      </section>
 
-      {/* Table: Job Count by Company */}
-      <h2>Top Companies Hiring</h2>
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Job Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          {countByField("company")
-            .sort((a, b) => b.value - a.value)
-            .slice(0, 10)
-            .map((item, index) => (
-              <tr key={index}>
-                <td>{item.name}</td>
-                <td>{item.value}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-
-      {/* Extra Charts: Jobs by Category */}
-      <section className="chart-section">
+      {/* Jobs by Category (Pie) */}
+      <section className="chart-section category-pie-chart">
         <h2>Jobs by Category (Pie)</h2>
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie
               data={categoryData}
-              dataKey="count"
-              nameKey="category"
+              dataKey="value"
+              nameKey="name"
               cx="50%"
               cy="50%"
               outerRadius={80}
               label
             >
-              {categoryData.map((_, idx) => (
-                <Cell key={`pie-cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
+              {categoryData.map((_, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip formatter={v => [`${v}`, 'Jobs']} />
-            <Legend verticalAlign="bottom" height={36} />
+            <Tooltip formatter={value => [value, 'Jobs']} />
+            <Legend verticalAlign="bottom" />
           </PieChart>
         </ResponsiveContainer>
       </section>
 
-      /* <section className="chart-section">
-        <h2>Jobs by Category (Line)</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={categoryData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="category" />
-            <YAxis />
-            <Tooltip />
-            
-            <Legend />
-            <Line 
-              type="monotone" 
-              dataKey="count" 
-              name="Jobs" 
-              stroke={COLORS[1]} 
-              activeDot={{ r: 8 }} 
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </section> */
-
-      <section className="chart-section">
+      {/* Jobs by Category (Bar) */}
+      <section className="chart-section category-bar-chart">
         <h2>Jobs by Category (Bar)</h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={categoryData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="category" />
+            <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="count" name="Jobs" fill={COLORS[0]} />
+            <Bar dataKey="value" fill={COLORS[2]} />
           </BarChart>
         </ResponsiveContainer>
       </section>
 
-      {/* Stacked Bar: Top Skills by Location */}
-      <section className="chart-section">
+      {/* Top 3 Skills by Location (Stacked) */}
+      <section className="chart-section skills-stacked-chart">
         <h2>Top 3 Skills by Location (Stacked)</h2>
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={stackedData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
@@ -208,22 +237,16 @@ const Dashboard = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            {Object.keys(stackedData[0] || {})
-              .filter(k => k !== 'location')
-              .map((skill, i) => (
-                <Bar 
-                  key={`stack-${i}`}
-                  dataKey={skill}
-                  stackId="a"
-                  name={skill}
-                  fill={COLORS[(i+4) % COLORS.length]} 
-                />
-              ))}
+            {stackedData[0] &&
+              Object.keys(stackedData[0])
+                .filter(k => k !== 'location')
+                .map((skill, i) => (
+                  <Bar key={skill} dataKey={skill} stackId="a" name={skill} fill={COLORS[i % COLORS.length]} />
+                ))
+            }
           </BarChart>
         </ResponsiveContainer>
       </section>
     </div>
   );
-};
-
-export default Dashboard;
+}
