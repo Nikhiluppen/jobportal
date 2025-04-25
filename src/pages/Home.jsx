@@ -65,6 +65,14 @@ const Home = () => {
           <p><strong>Description:</strong> Analyze data and visualize trends for business teams.</p>
           <Link to="/apply/3" className="apply-btn">Apply Now</Link>
         </div>
+
+        <div className="job-card">
+          <h3>Data Analyst</h3>
+          <p><strong>Skills:</strong> Python, SQL, Power BI</p>
+          <p><strong>Location:</strong> Missouri</p>
+          <p><strong>Description:</strong> Analyze data and visualize trends for business teams.</p>
+          <Link to="/apply/3" className="apply-btn">Apply Now</Link>
+        </div>
       </section>
 
       {/* Create Profile Section */}

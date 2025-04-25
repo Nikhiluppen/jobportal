@@ -22,7 +22,7 @@ const CategoryPage = () => {
             background-color: #f9f9f9;
             min-height: 100vh;
             font-family: Arial, sans-serif;
-            // colo: white:
+            
 
               
           }
