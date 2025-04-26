@@ -129,6 +129,8 @@ const Home = () => {
             My name is I Show Speed, I am so elated to share my experience with the SkillOverTitle website. 
             This website helped me to land in a job that I dreamt of. 
             Job recommendation features, and the personalized dashboard made me apply for the positions which aligned with my skill.
+            dreamt of. 
+            Job recommendation features, and the personalized dashboard made me apply for the positions which aligned with my skill.
           </p>
         </div>
       </section>

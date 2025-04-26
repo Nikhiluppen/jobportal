@@ -92,9 +92,7 @@ const Login = () => {
         .login-form button:hover {
           background-color: #0056b3;
         }
-          .login-form button:hover {
-          background-color: #0056b3;
-        }
+         
       `}</style>
     </div>
   );

@@ -32,7 +32,7 @@ const App = () => {
 
           <Route path="/categories/:category" element={<CategoryPage />} />
           
-          <Route path="*" element={<h1>404 - Page Not Found not </h1>} />
+          <Route path="*" element={<h1>404 - Page Not Found </h1>} />
         </Routes>
       </Layout>
     </Router>

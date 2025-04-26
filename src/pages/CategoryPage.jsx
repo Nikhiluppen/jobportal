@@ -56,7 +56,7 @@ const CategoryPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Apply Now
+                Apply Now and you can see jobs are redirected to LINKED in
               </a>
             </div>
           ))
