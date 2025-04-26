@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 const ApplyJob = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
+    FullName: '',
+    Email: '',
+    Phone: '',
     address: '',
     dob: '',
     education: '',
