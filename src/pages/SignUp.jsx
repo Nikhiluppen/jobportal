@@ -208,7 +208,7 @@ export default function SignUp() {
           <Typography align="center" variant="body2">
             Already have an account?{' '}
             <Link href="/Login">
-              Login
+              Login to redirect
             </Link>
             .
           </Typography>
