@@ -9,7 +9,7 @@ const SavedJobs = () => {
   }, []);
 
   const handleDelete = (index) => {
-    // Remove the job at the given index
+    // Remove the job at the given indexqeqweqweqe
     const updated = [...savedJobs];
     updated.splice(index, 1);
     setSavedJobs(updated);

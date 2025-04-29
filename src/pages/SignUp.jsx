@@ -1,143 +1,219 @@
+// src/pages/SignUp.jsx
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
+import { useNavigate }    from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Card as MuiCard,
+  Checkbox,
+  CssBaseline,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  Link,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-// Use MUI icons instead of missing CustomIcons
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { signUp } from '../auth'; // your API helper
+
+const PageContainer = styled(Stack)(({ theme }) => ({
+  minHeight: '100vh',
+  backgroundColor: '#005BBB',
+  alignItems: 'center',
+  paddingTop: theme.spacing(8),
+  paddingBottom: theme.spacing(8),
+}));
 
 const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
   width: '100%',
+  maxWidth: 400,
   padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: { maxWidth: '450px' },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  borderRadius: 8,
 }));
 
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  minHeight: '100vh',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: { padding: theme.spacing(4) },
-  background:
-    'radial-gradient(ellipse at center, hsl(210,100%,97%), hsl(0,0%,100%))',
-}));
+export default function SignUp() {
+  const [form, setForm] = useState({
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    confirm: '',
+    remember: false,
+  });
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-export default function SignIn() {
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    if (!validateInputs()) return;
-    const data = new FormData(event.currentTarget);
-    console.log({ email: data.get('email'), password: data.get('password') });
+  const handleChange = e => {
+    const { name, value, type, checked } = e.target;
+    setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    let isValid = true;
+  const validate = () => {
+    const errs = {};
+    if (!form.name)            errs.name     = 'Required';
+    if (!form.username)        errs.username = 'Required';
+    if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Invalid email';
+    if (form.password.length < 6)         errs.password = 'Min 6 chars';
+    if (form.password !== form.confirm)   errs.confirm  = 'Passwords must match';
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log('🔔 handleSubmit fired', form);
+
+    if (!validate()) {
+      console.log('🔔 validation failed', errors);
+      return;
     }
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
+    try {
+      console.log('🔔 calling signUp api…', {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      const user = await signUp({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      console.log('✅ signUp response:', user);
+      navigate('/sign-in');
+    } catch (err) {
+      console.error('❌ signUp error:', err);
+      setErrors({ api: err.response?.data?.message || err.message });
     }
-
-    return isValid;
   };
 
   return (
     <>
       <CssBaseline />
-      <SignInContainer direction="column" justifyContent="center" alignItems="center">
-        <Card variant="outlined">
-          <AccountCircleIcon sx={{ fontSize: 40, alignSelf: 'center', color: 'primary.main' }} />
-          <Typography component="h1" variant="h4" sx={{ fontSize: 'clamp(2rem, 8vw, 2.15rem)' }}>
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+      <PageContainer direction="column" spacing={2}>
+        <Typography variant="h4" component="h1" color="common.white">
+          Register your account
+        </Typography>
+
+        <Card elevation={3}>
+          {errors.api && (
+            <Typography color="error" align="center" sx={{ mb: 2 }}>
+              {errors.api}
+            </Typography>
+          )}
+
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <FormControl error={!!errors.name} fullWidth>
               <TextField
-                id="email"
+                label="Name"
+                name="name"
+                placeholder="Enter your full name..."
+                value={form.name}
+                onChange={handleChange}
+                helperText={errors.name}
+                required
+                fullWidth
+              />
+            </FormControl>
+
+            <FormControl error={!!errors.username} fullWidth>
+              <TextField
+                label="Username"
+                name="username"
+                placeholder="Enter a username..."
+                value={form.username}
+                onChange={handleChange}
+                helperText={errors.username}
+                required
+                fullWidth
+              />
+            </FormControl>
+
+            <FormControl error={!!errors.email} fullWidth>
+              <TextField
+                label="Email address"
                 name="email"
                 type="email"
-                placeholder="you@example.com"
-                autoComplete="email"
+                placeholder="Enter your email address..."
+                value={form.email}
+                onChange={handleChange}
+                helperText={errors.email}
                 required
                 fullWidth
-                error={emailError}
-                helperText={emailErrorMessage}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+
+            <FormControl error={!!errors.password} fullWidth>
               <TextField
-                id="password"
+                label="Password"
                 name="password"
                 type="password"
-                placeholder="••••••"
-                autoComplete="current-password"
+                placeholder="Enter your password..."
+                value={form.password}
+                onChange={handleChange}
+                helperText={errors.password}
                 required
                 fullWidth
-                error={passwordError}
-                helperText={passwordErrorMessage}
               />
             </FormControl>
-            <FormControlLabel control={<Checkbox value="remember" />} label="Remember me" />
-            <Button type="submit" variant="contained" fullWidth>
-              Sign in
+
+            <FormControl error={!!errors.confirm} fullWidth>
+              <TextField
+                label="Confirm Password"
+                name="confirm"
+                type="password"
+                placeholder="Enter your password again..."
+                value={form.confirm}
+                onChange={handleChange}
+                helperText={errors.confirm}
+                required
+                fullWidth
+              />
+            </FormControl>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="remember"
+                  checked={form.remember}
+                  onChange={handleChange}
+                />
+              }
+              label="Remember me"
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: '#28a745',
+                '&:hover': { backgroundColor: '#218838' },
+                py: 1.5,
+              }}
+            >
+              Sign up
             </Button>
           </Box>
-          <Divider>or</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Button fullWidth variant="outlined" onClick={() => alert('Sign in with Google')} startIcon={<GoogleIcon />}>
-              Sign in with Google
-            </Button>
-            <Button fullWidth variant="outlined" onClick={() => alert('Sign in with Facebook')} startIcon={<FacebookIcon />}>
-              Sign in with Facebook
-            </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link href="/sign-up" variant="body2">
-                Sign up here
-              </Link>
-            </Typography>
-          </Box>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Typography align="center" variant="body2">
+            Already have an account?{' '}
+            <Link href="/Login">
+              Login to redirect
+            </Link>
+            .
+          </Typography>
         </Card>
-      </SignInContainer>
+      </PageContainer>
     </>
   );
 }

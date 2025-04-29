@@ -38,7 +38,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Jobs */}
+      {/* Featured wedwdwwqJobs */}
       <section className="featured-jobs">
         <h2>Featured Jobs</h2>
 

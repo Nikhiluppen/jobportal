@@ -37,7 +37,7 @@ export default function Dashboard() {
     return { ...job, state, skills: skillsList };
   }), []);
 
-  // Options for each filter dropdown
+  // Options for each filterwqeeqe2e12weq s dropdown
   const stateOptions = useMemo(() => Array.from(new Set(jobs.map(j => j.state))), [jobs]);
   const levelOptions = useMemo(() => Array.from(new Set(jobs.map(j => j['job level'] || 'Other'))), [jobs]);
   const categoryOptions = useMemo(() => Array.from(new Set(jobs.map(j => j.Category || 'Other'))), [jobs]);
