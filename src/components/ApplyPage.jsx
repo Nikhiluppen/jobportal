@@ -48,7 +48,8 @@ const ApplyPage = () => {
       <p><strong>Location:</strong> {job.location}</p>
       <p><strong>Description:</strong> {job.description}</p>
       
-      {/* Application form or button wadwqdqwdqwS*/}
+      {/* Applicatio<button>Submit Application</button>
+    </div>n form or button wadwqdqwdqwS*/}
       <button>Submit Application</button>
     </div>
   );

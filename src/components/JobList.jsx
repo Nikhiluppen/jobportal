@@ -23,3 +23,6 @@ const JobList = ({ jobs }) => {
 };
 
 export default JobList;
+
+// <button>Submit Application</button>
+    // </div>
